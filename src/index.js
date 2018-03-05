@@ -22,8 +22,7 @@ function lex(line, rules) {
 }
 
 function assembleRules(rules) {
-    let concat = rules.reduce((a, v) => { return a += v.source + '|'; }, '');
-    concat = concat.slice(0, -1);
+    let concat = rules.reduce((a, v) => { return a += v.source + '|'; }, '').slice(0, -1);
     return new RegExp(concat, 'my'); // sticky and multiline by default
 }
 
@@ -31,9 +30,7 @@ function output(tokens) {
     const lean = tokens.map(v=>{
         // apparently the object we're working with does not have a standard hasOwnProperties prototype function.  Assume all params are own...
         for (const key in v) {
-            if (v[key] !== undefined) {
-                return { type: key, value: v[key] };
-            }
+            if (v[key] !== undefined) { return { type: key, value: v[key] }; }
         }
         return { type: "error", value: "error" };
     });
@@ -52,9 +49,9 @@ const rules = [
     /(?<colon>\:)/,
     /(?<num>\d+)/,
     /(?<tok>[\w\-]+)/,
-    /(?<init_tab>^\t+)/m,
-    /(?<term_ws>\s+?$)/m,
-    /(?<ws>\s+)/m,
+    /(?<nl>[\n\r])/,
+    /(?<tab>\t)/,
+    /(?<ws>\s+)/,
     /(?<junk>.+)/
 ];
 

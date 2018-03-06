@@ -1,9 +1,9 @@
 
 import { performance } from "perf_hooks";
 
-function lex(line, rules) {
+function lex(line, rules, rulemap) {
     const t0 = performance.now();
-    let tokens = output(applyRules(line, assembleRules(rules)).map(v=>v.groups));
+    let tokens = output(applyRules(line, assembleRules(rules)), rulemap);
     return { tokens, time: (performance.now() - t0) };
 }
 
@@ -18,15 +18,13 @@ function applyRules(line, rules) {
 
 function assembleRules(rules) {
     let concat = rules.reduce((a, v) => { return a += v.source + '|'; }, '').slice(0, -1);
-    return new RegExp(concat, 'umy'); // sticky, Unicode, and multiline by default
+    return new RegExp(concat, 'muy'); // sticky, Unicode, and multiline by default
 }
 
-function output(tokens) {
+function output(tokens, rulemap) {
     return tokens.map(v=>{
-        // apparently the object we're working with (at least in V8) does not have a standard 
-        // hasOwnProperties prototype function.  Assume all params are own...
-        for (const key in v) {
-            if (v[key] !== undefined) { return { type: key, value: v[key] }; }
+        for (const i in v) {
+            if (i > 0 && v[i] !== undefined) { return { type: rulemap[i-1], value: v[i] }; }
         }
         return { type: "error", value: "error" };
     });

@@ -19,4 +19,11 @@ function getInput(name) {
         return fs.readFileSync(`./data/${name}`, 'utf8');
 }
 
-export default getInput;
+function writeOutput(name, data) {
+        if (name === undefined) return;
+
+        fs.writeFileSync(`./data/${name}`, data)
+}
+
+const io = { getInput, writeOutput };
+export default io;

@@ -6,7 +6,9 @@
   "scripts": {
     "build": "babel src -d lib",
     "clean": "rimraf ./lib",
-    "start": "babel src -d lib && node --es_staging lib/index.js",
+    "start": "node --es_staging lib/index.js",
+    "start:clean": "babel src -d lib && node --es_staging lib/index.js",
+    "start:prof": "node --prof --es_staging lib/index.js",
     "test": "jest"
   },
   "repository": {

@@ -2,6 +2,9 @@
 logs
 *.log*
 
+# data files
+data
+
 # Runtime data
 pids
 *.pid
@@ -12,6 +15,10 @@ lib-cov
 
 # Coverage directory used by tools like istanbul
 coverage
+
+# profiling files
+isolate-*.log
+processed.txt
 
 # Production directory
 lib

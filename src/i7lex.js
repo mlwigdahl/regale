@@ -1,6 +1,10 @@
 
+import { performance } from "perf_hooks";
+
 function lex(line, rules) {
-    return output(applyRules(line, assembleRules(rules)).map(v=>v.groups));
+    const t0 = performance.now();
+    let tokens = output(applyRules(line, assembleRules(rules)).map(v=>v.groups));
+    return { tokens, time: (performance.now() - t0) };
 }
 
 function applyRules(line, rules) {
@@ -14,7 +18,7 @@ function applyRules(line, rules) {
 
 function assembleRules(rules) {
     let concat = rules.reduce((a, v) => { return a += v.source + '|'; }, '').slice(0, -1);
-    return new RegExp(concat, 'my'); // sticky and multiline by default
+    return new RegExp(concat, 'umy'); // sticky, Unicode, and multiline by default
 }
 
 function output(tokens) {

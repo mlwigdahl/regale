@@ -5,8 +5,7 @@
 
 /*
  source
-    title pb
-    paragraph { pb paragraph }
+    [title pb] paragraph { pb paragraph }
 
 title
     qt

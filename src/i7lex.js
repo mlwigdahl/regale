@@ -1,15 +1,15 @@
 
 import { performance } from "perf_hooks";
 
-function lex(line, rules) {
+function lex(text, rules) {
     const t0 = performance.now();
-    let tokens = output(applyRules(line, assembleRules(rules)), rules);
+    let tokens = output(applyRules(text, assembleRules(rules)), rules);
     return { tokens, time: (performance.now() - t0) };
 }
 
-function applyRules(line, rules) {
+function applyRules(text, rules) {
     let result, results=[];
-    while ((result = rules.exec(line)) !== null) {
+    while ((result = rules.exec(text)) !== null) {
         if (results.length > 0 && result.index === results[results.length-1].index) break;
         results.push(result);
     }
